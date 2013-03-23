@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="MyPal:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="MyPal.war">
+      <element id="artifact" artifact-name="MyPal:war exploded" />
+    </root>
+  </artifact>
+</component>
