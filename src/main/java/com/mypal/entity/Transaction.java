@@ -1,5 +1,8 @@
 package com.mypal.entity;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import javax.persistence.*;
 
 @Entity
@@ -11,6 +14,7 @@ public class Transaction {
     private User credit;
     private double sum;
     private boolean status;
+    private TransactionLog log;
 
     @Id
     @GeneratedValue
@@ -58,5 +62,32 @@ public class Transaction {
 
     public void setStatus(boolean status) {
         this.status = status;
+    }
+
+    //@OneToOne(fetch = FetchType.LAZY, mappedBy = "transaction", cascade = CascadeType.ALL)
+    /*@OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "log_id")*/
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinTable(name = "transaction_log",
+            joinColumns = @JoinColumn(name="transaction_id"),
+            inverseJoinColumns = @JoinColumn(name="log_id")
+    )
+    public TransactionLog getLog() {
+        return log;
+    }
+
+    public void setLog(TransactionLog log) {
+        this.log = log;
+    }
+
+    public JSONObject toJSON() throws JSONException {
+
+        JSONObject result = new JSONObject();
+        result.put("debit", this.getDebit().getEmail());
+        result.put("credit", this.getCredit().getEmail());
+        result.put("status", this.getStatus());
+        result.put("sum", this.getSum());
+        return result;
     }
 }

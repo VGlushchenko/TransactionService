@@ -4,6 +4,7 @@ import com.mypal.dao.CreditCardDAO;
 import com.mypal.dao.UserDAO;
 import com.mypal.entity.CreditCard;
 import com.mypal.entity.User;
+import com.mypal.entity.UserSecurity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,13 +19,17 @@ public class CreditCardService {
     @Autowired
     private CreditCardDAO creditCardDAO;
 
-    public boolean getCredit(User user, CreditCard card, double sum) throws IOException {
+    public boolean getCredit(UserSecurity user, CreditCard card, double sum) throws IOException {
 
         boolean credit = validateCreditBalance(card.getCardBalance(), sum);
+
+        User debitUser = userDAO.getById(user.getId());
         if (credit)
-            user.setBalance(user.getBalance() + sum);
+            debitUser.setBalance(user.getBalance() + sum);
             card.setCardBalance(card.getCardBalance() - sum);
-            userDAO.save(user);
+
+
+            userDAO.save(debitUser);
             creditCardDAO.save(card);
 
         return credit;

@@ -593,6 +593,12 @@
       <column name="owner" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4" />
       <primary-key name="PRIMARY" columns="id" />
     </table>
+    <table name="transaction_log" schema="" catalog="mypal" type="TABLE">
+      <column name="id" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4" />
+      <column name="transaction_id" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4" />
+      <column name="log_id" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4" />
+      <primary-key name="PRIMARY" columns="id" />
+    </table>
     <table name="transactions" schema="" catalog="mypal" type="TABLE">
       <column name="id" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4" autoIncrement="true" />
       <column name="debit_id" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4" />
@@ -600,6 +606,12 @@
       <column name="sum" sqlType="DOUBLE" length="22" precision="0" nullable="false" jdbcType="8" />
       <column name="status" sqlType="BIT" length="0" precision="0" nullable="false" jdbcType="-7" def="MQ==" />
       <primary-key name="PRIMARY" columns="id" />
+    </table>
+    <table name="transactions_logs" schema="" catalog="mypal" type="TABLE">
+      <column name="log_id" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4" autoIncrement="true" />
+      <column name="started_at" sqlType="DATE" length="10" precision="0" nullable="false" jdbcType="91" />
+      <column name="completed_at" sqlType="DATE" length="10" precision="0" nullable="true" jdbcType="91" />
+      <primary-key name="PRIMARY" columns="log_id" />
     </table>
     <table name="users" schema="" catalog="mypal" type="TABLE">
       <column name="id" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4" autoIncrement="true" />

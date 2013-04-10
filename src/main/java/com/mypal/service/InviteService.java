@@ -31,7 +31,7 @@ public class InviteService {
             message.setFrom(new InternetAddress(username));
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(email));
-            message.setSubject("In6k PayPal");
+            message.setSubject("PayPal");
             message.setText("Dear Friend,"
                     + "\n\n Mr." + name + " send to you " + sum + "$, please, save an account in our MyPal system! \n" +
                     "Just follow the next link http://localhost:8080/registration");

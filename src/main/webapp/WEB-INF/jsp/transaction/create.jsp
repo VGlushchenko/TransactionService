@@ -6,32 +6,49 @@
       xmlns:sec="http://www.springframework.org/security/tags">
     <head>
         <link type="text/css" rel="stylesheet" href="/css/bootstrap.css" />
+        <link type="text/css" rel="stylesheet" href="/css/style.css" />
+
+        <script src="/js/jquery-1.9.1.js"></script>
+        <script src="/js/transactions.js"></script>
+        <script src="/js/bootstrap.js"></script>
+
     </head>
     <body>
         <legend>
-            <span><c:out value="${user.email}" /></span>
+            <span><c:out value="${user.username}" /></span>
             <span style="float: right"><a href="<c:url value="j_spring_security_logout" />" >Logout</a></span>
         </legend>
 
         <ul class="nav nav-tabs">
-            <li><a href="/transaction/create/creditfromcard">Pay</a></li>
-            <li><a href="/transaction/create/debitedtothecard">Cash-out</a></li>
-            <li class="active"><a href="/transaction/create">Send money</a></li>
-            <li><a href="/transaction/history">History</a></li>
+            <li><a href="/transaction/create/creditfromcard">Cash-out</a></li>
+            <li class="active"><a>Send money</a></li>
+            <li class="history"><a href="/transaction/history">History</a></li>
             <sec:authorize ifAllGranted="ROLE_ADMIN">
-                <li><a href="/admin">Admin panel</a></li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown"
+                       href="#">
+                        Admin options
+                        <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/users">Show all users</a></li>
+                        <li><a href="/admin/transaction/list" >Show all transactions</a></li>
+                    </ul>
+                </li>
             </sec:authorize>
             <li style="float: right">Balance: <c:out value="${user.balance}" />$</li>
         </ul>
 
-        <c:if test="${!transactionComplete && transactionComplete!=null}"><h4 style="color: red">Can not create transaction!</h4></c:if>
+            <div id="send-form">
+                <c:if test="${!transactionComplete && transactionComplete!=null}"><h4 style="color: red">Can not create transaction!</h4></c:if>
 
-        <form method="post" action="/transaction/create">
-            Debit email:<br>
-            <input name="debit" type="text" class="input-large" placeholder="Email"><br>
-             Sum: <br>
-            <input name="sum" type="text" class="input-large" placeholder="Sum"><br>
-             <button type="submit" class="btn">Create</button>
-        </form>
+                <form method="post" action="/transaction/create">
+                    Debit email:<br>
+                    <input name="debit" type="text" class="input-large" placeholder="Email"><br>
+                     Sum: <br>
+                    <input name="sum" type="text" class="input-large" placeholder="Sum"><br>
+                     <button type="submit" class="btn">Create</button>
+                </form>
+            </div>
     </body>
 </html>

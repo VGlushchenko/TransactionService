@@ -5,6 +5,7 @@ import com.mypal.dao.UserDAO;
 import com.mypal.entity.CreditCard;
 import com.mypal.entity.User;
 import com.mypal.form.RegistrationForm;
+import com.mypal.service.DecodeService;
 import com.mypal.service.RegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,16 +13,18 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 
 @Controller
 public class SecurityController {
 
     @Autowired UserDAO userDAO;
+
+    @Autowired
+    DecodeService decodeService;
 
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
     public String showRegistrationForm(Model model) {
@@ -32,13 +35,13 @@ public class SecurityController {
     }
 
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
-    public String processRegistrationForm(@Valid RegistrationForm registrationForm, BindingResult result, Model model) {
-        //RegistrationService registrationService = new RegistrationService(registrationForm);
+    public String processRegistrationForm(@Valid RegistrationForm registrationForm, BindingResult result, Model model) throws UnsupportedEncodingException, NoSuchAlgorithmException {
+        RegistrationService registrationService = new RegistrationService(registrationForm);
 
         User user = new User();
             user.setFirstName(registrationForm.getFirstName());
             user.setEmail(registrationForm.getEmail());
-            user.setPassword(registrationForm.getPassword());
+            user.setPassword(decodeService.decodePassword(registrationForm.getPassword()));
             user.setEnabled(true);
             user.setAuthorities("ROLE_USER");
             user.setBalance(1000.0);

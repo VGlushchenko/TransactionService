@@ -37,7 +37,7 @@ public class AdminService {
     }
 
     public List userTransactions(int id) {
-        return transactionDAO.findAllForUser(userDAO.getById(id));
+        return transactionDAO.findAllForUser(id);
     }
 
     public List listTransactions() throws IOException, SQLException {

@@ -1,6 +1,5 @@
 package com.mypal.entity;
 
-import com.mypal.util.SecurityUtil;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -9,23 +8,32 @@ import java.util.HashSet;
 
 public class UserSecurity implements UserDetails {
 
+    private int id;
     private String username;
     private String password;
     private Collection<GrantedAuthority> authorities;
     private String firstName;
-    private String lastName;
     private double balance;
     private boolean enabled;
 
-    public UserSecurity (String username, String password, String roles,
+    public UserSecurity (int id, String username, String password, String roles,
                          String firstName, double balance, boolean enabled) {
         super();
+        this.id = id;
         this.username = username;
         this.password = password;
         this.firstName = firstName;
         this.setRoles(roles);
         this.balance = balance;
         this.enabled = enabled;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void setRoles(String roles) {
@@ -92,14 +100,6 @@ public class UserSecurity implements UserDetails {
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
     }
 
     public double getBalance() {

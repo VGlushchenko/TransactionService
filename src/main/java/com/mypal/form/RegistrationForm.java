@@ -8,9 +8,6 @@ public class RegistrationForm {
     @NotEmpty(message = "*First name should not be empty")
     private String firstName;
 
-    @NotEmpty(message = "*Last name should not be empty")
-    private String lastName;
-
     @Email(message = "*It is not valid email")
     @NotEmpty(message = "*Email should not be empty")
     private String email;

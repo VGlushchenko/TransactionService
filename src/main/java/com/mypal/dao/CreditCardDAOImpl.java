@@ -20,9 +20,9 @@ public class CreditCardDAOImpl implements CreditCardDAO {
     private SessionFactory sessionFactory;
 
     @Override
-    public List<CreditCard> userCards(User user) {
+    public List<CreditCard> userCards(int id) {
         Query query = sessionFactory.getCurrentSession().createQuery("from CreditCard WHERE owner = ?");
-        query.setInteger(0, user.getId());
+        query.setInteger(0, id);
         return query.list();
     }
 
