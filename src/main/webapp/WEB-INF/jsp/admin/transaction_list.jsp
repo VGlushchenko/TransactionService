@@ -4,6 +4,9 @@
 <html>
 <head>
     <link rel="stylesheet" type="text/css" href="/css/bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/style.css"/>
+
+    <script src="/js/jquery-1.9.1.js"></script>
     <script src="/js/bootstrap.js"></script>
 </head>
 <body>
@@ -50,18 +53,21 @@
                 <td>${transaction.sum}</td>
                 <td>${transaction.status}</td>
                 <c:if test="${transaction.id > 0}">
-                    <c:if test="${transaction.status == true}">
+                    <c:if test="${transaction.status.equals('in progress')}">
                         <td>
                             <a href="/transaction/<c:out value="${transaction.id}"/>/cancel">
-                                <button class="btn-inverse">Cancel</button>
+                                <button class="btn btn-small btn-danger">Rollback</button>
                             </a>
                         </td>
                     </c:if>
-                    <c:if test="${transaction.status == false}">
+                    <c:if test="${transaction.status.equals('completed')}">
                         <td>
-                            <a href="/transaction/<c:out value="${transaction.id}"/>/restore">
-                                <button class="btn-warning">Restore</button>
-                            </a>
+                            <button class="btn btn-small disabled btn-danger">Rollback</button>
+                        </td>
+                    </c:if>
+                    <c:if test="${transaction.status.equals('failed')}">
+                        <td style="color: red">
+                            failed =(
                         </td>
                     </c:if>
                 </c:if>

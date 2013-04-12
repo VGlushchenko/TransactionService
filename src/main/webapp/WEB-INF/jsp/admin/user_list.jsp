@@ -65,11 +65,11 @@
                         <td><c:out value="${user.enabled}"/></td>
                         <td style="width: 200px">
                             <c:if test="${user.enabled == true}">
-                                <input value="Disable" onClick="location.href='./user/ban/' +
+                                <input value="Disable" onClick="location.href='./user/disable/' +
                                     '<c:out value="${user.id}"/>'" type="button" class="btn btn-small btn-danger"/>
                             </c:if>
                             <c:if test="${user.enabled == false}">
-                                <input value="Enable" onClick="location.href='./user/unban/' +
+                                <input value="Enable" onClick="location.href='./user/enable/' +
                                     '<c:out value="${user.id}"/>'" type="button" class="btn btn-small btn-success"/>
                             </c:if>
                                 <a href="users/<c:out value="${user.id}"/>/transactions" class="btn btn-small">Transactions</a>

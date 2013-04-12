@@ -27,10 +27,10 @@ public class TransactionService {
     @Autowired
     LogDAO log;
 
-    private static final String VALID_EMAIL_REGEXP =
+    private static final String EMAIL_REGEXP =
             "^[A-Za-z0-9](([_\\.\\-]?[a-zA-Z0-9]+)*)@([A-Za-z0-9]+)(([\\.\\-]?[a-zA-Z0-9]+)*)\\.([A-Za-z]{2,})$";
 
-    public boolean create(int id, String debitUserEmail, String inputSum) throws IOException {
+    public boolean create(int id, String debitUserEmail, String inputSum) throws Exception {
 
         User creditUser = userDAO.getById(id);
         User debitUser = userDAO.getByEmail(debitUserEmail);
@@ -60,23 +60,42 @@ public class TransactionService {
 
             transaction.setCredit(creditUser);
             transaction.setSum(sum);
-            transaction.setStatus(false);
+            transaction.setStatus("in progress");
 
+            try {
+                userDAO.save(creditUser);
 
-            userDAO.save(creditUser);
+                transactionLog.setStartedAt(new Date());
+                transactionLog.setTransaction(transaction);
+                transaction.setLog(transactionLog);
 
-            transactionLog.setStartedAt(new Date());
-            transactionLog.setTransaction(transaction);
-            transaction.setLog(transactionLog);
+                transactionDAO.save(transaction);
+                userDAO.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
-            transactionDAO.save(transaction);
+            try {
+                Thread.currentThread().sleep(5000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
 
-            //Exception
+            transaction.getLog().setCompletedAt(new Date());
+
+            /*if(true)
+                throw new Exception();*/
 
             if (transaction.getLog().getCompletedAt() != null) {
-                transaction.setStatus(true);
-                transactionDAO.save(transaction);
+                transaction.setStatus("completed");
+                try {
+                    userDAO.save(debitUser);
+                    transactionDAO.save(transaction);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
+
             return true;
         }
         return false;
@@ -95,7 +114,7 @@ public class TransactionService {
     }
 
     private static boolean isEmailValid(String email) {
-        return email.matches(VALID_EMAIL_REGEXP);
+        return email.matches(EMAIL_REGEXP);
     }
 
     public User getDefaultUser(String email) {
@@ -107,6 +126,33 @@ public class TransactionService {
         user.setAuthorities("ROLE_USER");
 
         return user;
+    }
+
+    public void rollback(Transaction transaction) {
+        User creditUser = transaction.getCredit();
+
+        Double sum = transaction.getSum();
+        Double userBalance = creditUser.getBalance();
+
+        creditUser.setBalance(userBalance + sum);
+        transaction.setStatus("failed");
+
+        try {
+            userDAO.save(creditUser);
+            transactionDAO.save(transaction);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void rollbackUncompletedTransactions() {
+        List<Transaction> transactionList = transactionDAO.getUncompletedTransactions();
+
+        for (Transaction transaction : transactionList) {
+            rollback(transaction);
+        }
     }
 
     public List<Transaction> getLimitResults(int id, int start) {

@@ -40,7 +40,7 @@
         </ul>
 
             <div id="send-form">
-                <c:if test="${!transactionComplete && transactionComplete!=null}"><h4 style="color: red">Can not create transaction!</h4></c:if>
+                <c:if test="${!transactionComplete && transactionComplete!= null}"><h4 style="color: red">Email is not valid!</h4></c:if>
 
                 <form method="post" action="/transaction/create">
                     Debit email:<br>

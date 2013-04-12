@@ -17,8 +17,9 @@ public class LogDAOImpl implements LogDAO {
     private SessionFactory sessionFactory;
 
     @Override
-    public void save(TransactionLog log) {
-        sessionFactory.getCurrentSession().saveOrUpdate(log);
+    @Transactional(rollbackFor = Throwable.class)
+    public TransactionLog save(TransactionLog log) {
+        return (TransactionLog) sessionFactory.getCurrentSession().save(log);
     }
 
     @Override

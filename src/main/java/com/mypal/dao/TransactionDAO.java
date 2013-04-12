@@ -12,6 +12,10 @@ public interface TransactionDAO {
 
     public void save(Transaction transaction) throws IOException;
 
+    public void delete(Transaction transaction);
+
+    public List<Transaction> getUncompletedTransactions();
+
     public List<Transaction> list() throws IOException, SQLException;
 
     public Transaction getById(Integer id) throws SQLException;

@@ -27,7 +27,7 @@ public class TransactionController extends BaseController {
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String create(@RequestParam("debit") String debit,
-                         @RequestParam("sum") String sum, ModelMap model) throws IOException {
+                         @RequestParam("sum") String sum, ModelMap model) throws Exception {
         UserSecurity user = getCurrentUserDetails();
         model.addAttribute("user", user);
 
@@ -42,7 +42,7 @@ public class TransactionController extends BaseController {
     }
 
     @RequestMapping(value = "/history")
-    public String history(ModelMap model) throws IOException, SQLException {
+    public String history(ModelMap model) {
         UserSecurity user = getCurrentUserDetails();
 
         model.addAttribute("user", user);

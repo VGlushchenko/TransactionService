@@ -11,5 +11,6 @@ public interface UserDAO {
     public User getByEmail(String email);
     public double getBalance(Integer id);
     public List<User> list();
+    public void flush();
 }
 

@@ -7,6 +7,7 @@ import com.mypal.entity.User;
 import com.mypal.form.RegistrationForm;
 import com.mypal.service.DecodeService;
 import com.mypal.service.RegistrationService;
+import com.mypal.service.quartz.QuartzTrigger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,6 +26,9 @@ public class SecurityController {
 
     @Autowired
     DecodeService decodeService;
+
+    @Autowired
+    QuartzTrigger quartzTrigger;
 
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
     public String showRegistrationForm(Model model) {
@@ -72,7 +76,8 @@ public class SecurityController {
     }
 
      @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String showLoginForm() {
+    public String showLoginForm() throws Exception {
+        quartzTrigger.startJob(1);
         return "security/login";
     }
 

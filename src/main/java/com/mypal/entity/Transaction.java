@@ -4,6 +4,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "transactions")
@@ -13,7 +14,7 @@ public class Transaction {
     private User debit;
     private User credit;
     private double sum;
-    private boolean status;
+    private String status;
     private TransactionLog log;
 
     @Id
@@ -56,11 +57,11 @@ public class Transaction {
     }
 
     @Column(name = "status")
-    public boolean getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(boolean status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
@@ -79,6 +80,17 @@ public class Transaction {
 
     public void setLog(TransactionLog log) {
         this.log = log;
+    }
+
+    public boolean completed() {
+        return (this.getLog().getCompletedAt() != null)
+                ? true
+                : false;
+    }
+
+    public void complete() {
+        this.getLog().setCompletedAt(new Date());
+        this.setStatus("complete");
     }
 
     public JSONObject toJSON() throws JSONException {

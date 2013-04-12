@@ -3,6 +3,6 @@ CREATE TABLE `transactions` (
   `debit_id` int(11) NOT NULL,
   `credit_id` int(11) NOT NULL,
   `sum` double NOT NULL,
-  `status` tinyint(1) NOT NULL DEFAULT '1',
+  `status` varchar(100) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8;

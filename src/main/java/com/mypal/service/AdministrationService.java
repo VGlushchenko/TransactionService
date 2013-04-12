@@ -12,7 +12,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 @Service
-public class AdminService {
+public class AdministrationService {
 
     @Autowired
     UserDAO userDAO;
@@ -20,7 +20,10 @@ public class AdminService {
     @Autowired
     TransactionDAO transactionDAO;
 
-    public  void banUser(int id) {
+    @Autowired
+    TransactionService transactionService;
+
+    public  void disableUser(int id) {
         User user = userDAO.getById(id);
         if (user != null) {
             user.setEnabled(false);
@@ -28,7 +31,7 @@ public class AdminService {
         }
     }
 
-    public void unBanUser(int id) {
+    public void enableUser(int id) {
         User user = userDAO.getById(id);
         if (user != null) {
             user.setEnabled(true);
@@ -44,19 +47,10 @@ public class AdminService {
         return transactionDAO.list();
     }
 
-    public void cancelTransaction(int id) throws SQLException, IOException {
+    public void rollback(int id) throws SQLException, IOException {
         Transaction transaction = transactionDAO.getById(id);
         if (transaction != null) {
-            transaction.setStatus(false);
-            transactionDAO.save(transaction);
-        }
-    }
-
-    public void restoreTransaction(int id) throws SQLException, IOException {
-        Transaction transaction = transactionDAO.getById(id);
-        if (transaction != null) {
-            transaction.setStatus(true);
-            transactionDAO.save(transaction);
+            transactionService.rollback(transaction);
         }
     }
 }

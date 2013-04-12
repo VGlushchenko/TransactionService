@@ -1,0 +1,1 @@
+INSERT INTO `credit_cards`(`name`, `card_balance`, `owner`) VALUES ('Privat Bank',1000,11);

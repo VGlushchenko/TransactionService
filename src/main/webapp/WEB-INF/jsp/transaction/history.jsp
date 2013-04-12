@@ -43,33 +43,12 @@
             <li style="float: right">Balance: <c:out value="${user.balance}" />$</li>
         </ul>
 
-      <%--  <table class="table table-striped">
-
-            <tr>
-                <th>ID</th>
-                <th>Debit account</th>
-                <th>Credit account</th>
-                <th>Sum</th>
-            </tr>
-
-            <c:forEach var="transaction" items="${transactions}">
-                <tr>
-                    <td>${transaction.id}</td>
-                    <td>${transaction.credit.email}</td>
-                    <td>${transaction.debit.email}</td>
-                    <td>${transaction.sum}</td>
-                </tr>
-            </c:forEach>
-
-        </table>--%>
-
-
         <div id="user-transactions" class="table table-striped" style="height: 457px; position: relative">
             <table id="transaction-table">
                 <colgroup>
                     <col width="300px"/>
                     <col width="300px"/>
-                    <col width="25px"/>
+                    <col width="100px"/>
                     <col width="25px"/>
                 </colgroup>
                 <thead>

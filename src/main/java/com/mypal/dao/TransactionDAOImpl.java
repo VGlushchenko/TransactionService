@@ -29,8 +29,19 @@ public class TransactionDAOImpl implements TransactionDAO {
     }
 
     @Override
+    @Transactional(rollbackFor = Throwable.class)
     public void save(Transaction transaction) throws IOException {
         sessionFactory.getCurrentSession().saveOrUpdate(transaction);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Throwable.class)
+    public void delete(Transaction transaction) {
+        sessionFactory.getCurrentSession().delete(transaction);
+    }
+
+    public List<Transaction> getUncompletedTransactions() {
+        return sessionFactory.getCurrentSession().createQuery("from Transaction where status = 'in progress'").list();
     }
 
     @Override
