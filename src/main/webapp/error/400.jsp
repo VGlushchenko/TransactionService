@@ -4,6 +4,8 @@
     <title></title>
 </head>
 <body>
-    <h1>400!!!</h1>
+<div style="text-align: center">
+    <a href="/login"><img src="/img/404.jpg"></a>
+</div>
 </body>
 </html>

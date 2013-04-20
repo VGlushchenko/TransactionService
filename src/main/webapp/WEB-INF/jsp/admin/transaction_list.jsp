@@ -52,25 +52,18 @@
                 <td>${transaction.debit.email}</td>
                 <td>${transaction.sum}</td>
                 <td>${transaction.status}</td>
-                <c:if test="${transaction.id > 0}">
-                    <c:if test="${transaction.status.equals('in progress')}">
-                        <td>
-                            <a href="/transaction/<c:out value="${transaction.id}"/>/cancel">
-                                <button class="btn btn-small btn-danger">Rollback</button>
-                            </a>
-                        </td>
+                <td>
+                    <c:if test="${transaction.id > 0}">
+                        <c:if test="${transaction.status.equals('in progress')}">
+                                <a href="/transaction/<c:out value="${transaction.id}"/>/cancel">
+                                    <button class="btn btn-small btn-danger">Rollback</button>
+                                </a>
+                        </c:if>
+                        <c:if test="${transaction.status.equals('completed') || transaction.status.equals('failed')}">
+                                <button class="btn btn-small disabled btn-danger">Rollback</button>
+                        </c:if>
                     </c:if>
-                    <c:if test="${transaction.status.equals('completed')}">
-                        <td>
-                            <button class="btn btn-small disabled btn-danger">Rollback</button>
-                        </td>
-                    </c:if>
-                    <c:if test="${transaction.status.equals('failed')}">
-                        <td style="color: red">
-                            failed =(
-                        </td>
-                    </c:if>
-                </c:if>
+                </td>
             </tr>
         </c:forEach>
 

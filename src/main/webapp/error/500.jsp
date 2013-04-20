@@ -6,7 +6,8 @@
     <title></title>
 </head>
 <body>
-    <h1>500!!!</h1>
-    Internal server error
+<div style="text-align: center">
+    <a href="/login"><img src="/img/500.jpg"></a>
+</div>
 </body>
 </html>

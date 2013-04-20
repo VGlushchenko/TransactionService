@@ -9,15 +9,44 @@ var HISTORY = {
         var self = this;
 
         $(document).on('click', '.pagination li', function (e) {
+            if ($(e.target).parent().hasClass('disabled')) return;
             self.showClickedPage(e);
         });
     },
 
+    beforePage: function () {
+        var page = $('div.pagination li.active').attr('page');
+        return parseInt(page) - 1;
+    },
+
+    forwardPage: function () {
+        var page = $('div.pagination li.active').attr('page');
+        return parseInt(page) + 1;
+    },
+
     showClickedPage: function (e) {
-        var targetPage = $(e.target);
-        var page = targetPage.text();
-        $('.pagination li').removeClass('active')
-        targetPage.parent().addClass('active');
+
+        var targetPage = $(e.target).parent();
+        var lastPage = $('.pagination li:nth-last-child(2)').attr('page');
+        var page;
+        if (targetPage.hasClass('page-before')) {
+            page = this.beforePage()
+        }
+        else if (targetPage.hasClass('page-forward')) {
+            page = this.forwardPage();
+        }
+        else {
+            page = targetPage.attr('page');
+        }
+
+        $('.pagination li').removeClass('active').removeClass('disabled');
+
+        $('.pagination li[page="' + page + '"]').addClass('active');
+
+        if ($('.pagination li[page="1"]').hasClass('active'))
+            $('.page-before').addClass('disabled');
+        else if ($('.pagination li[page="' + lastPage + '"]').hasClass('active'))
+            $('.page-forward').addClass('disabled');
 
         this.showHistory(page);
     },
@@ -50,10 +79,12 @@ var HISTORY = {
             this.addTransactionRow(transactions[i]);
     },
 
-    initPager: function (pages) {
+    initPager: function (pages, static) {
         for (var i = 1; i < pages + 1; i++) {
-            $('.page-forward').before('<li class="page"><a style="cursor:pointer">' + i + '</a></li>');
+            $('.page-forward').before('<li class="page" page="' + i + '"><a style="cursor:pointer">' + i + '</a></li>');
         }
+        $('.pagination li[page="1"]').addClass('active');
+        $('.page-before').addClass('disabled');
     },
 
     addTransactionRow: function (tr) {

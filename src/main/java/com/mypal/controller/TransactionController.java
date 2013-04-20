@@ -52,7 +52,7 @@ public class TransactionController extends BaseController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/history/json", method = RequestMethod.GET)
+    @RequestMapping(value = "history/json", method = RequestMethod.GET)
     public String historyJson(@RequestParam("page") int page) throws IOException, SQLException, JSONException {
         UserSecurity user = getCurrentUserDetails();
 

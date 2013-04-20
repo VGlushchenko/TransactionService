@@ -30,7 +30,6 @@
                     <b class="caret"></b>
                 </a>
                 <ul class="dropdown-menu">
-                    <li><a href="/transaction/create">Main</a></li>
                     <li><a href="/users">Show all users</a></li>
                     <li><a href="/admin/transaction/list" >Show all transactions</a></li>
                 </ul>

@@ -23,7 +23,6 @@
         <span style="float: right"><a href="<c:url value="j_spring_security_logout" />" >Logout</a></span>
     </legend>
 
-
     <ul class="nav nav-tabs">
         <li><a href="/transaction/create/creditfromcard">Cash-out</a></li>
         <li><a>Send money</a></li>
@@ -44,41 +43,44 @@
         <li style="float: right">Balance: <c:out value="${user.balance}" />$</li>
     </ul>
 
-    <div style="float: left; width: 50%">
-    <table class="table table-striped" style="width: 600px">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Is Enabled</th>
-                <th>Options</th>
-            </tr>
-        </thead>
-        <tbody>
-            <c:forEach var="user" items="${userlist}">
-                <c:if test="${user.id > 0}">
-                    <tr>
-                        <td><c:out value="${user.id}"/></td>
-                        <td><c:out value="${user.firstName}"/></td>
-                        <td><c:out value="${user.email}"/></td>
-                        <td><c:out value="${user.enabled}"/></td>
-                        <td style="width: 200px">
-                            <c:if test="${user.enabled == true}">
-                                <input value="Disable" onClick="location.href='./user/disable/' +
-                                    '<c:out value="${user.id}"/>'" type="button" class="btn btn-small btn-danger"/>
-                            </c:if>
-                            <c:if test="${user.enabled == false}">
-                                <input value="Enable" onClick="location.href='./user/enable/' +
-                                    '<c:out value="${user.id}"/>'" type="button" class="btn btn-small btn-success"/>
-                            </c:if>
-                                <a href="users/<c:out value="${user.id}"/>/transactions" class="btn btn-small">Transactions</a>
-                         </td>
-                    </tr>
-                </c:if>
-            </c:forEach>
-        </tbody>
+    <div style="float: left; width: 70%">
+        <table class="table table-striped" style="width: 600px">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Balance</th>
+                    <th>Is Enabled</th>
+                    <th>Options</th>
+                </tr>
+            </thead>
+            <tbody>
+                <c:forEach var="user" items="${userlist}">
+                    <c:if test="${user.id > 0}">
+                        <tr>
+                            <td><c:out value="${user.id}"/></td>
+                            <td><c:out value="${user.firstName}"/></td>
+                            <td><c:out value="${user.email}"/></td>
+                            <td><c:out value="${user.balance}"/></td>
+                            <td><c:out value="${user.enabled}"/></td>
+                            <td style="width: 200px">
+                                <c:if test="${user.enabled == true}">
+                                    <input value="Disable" onClick="location.href='./user/disable/' +
+                                        '<c:out value="${user.id}"/>'" type="button" class="btn btn-small btn-danger"/>
+                                </c:if>
+                                <c:if test="${user.enabled == false}">
+                                    <input value="Enable" onClick="location.href='./user/enable/' +
+                                        '<c:out value="${user.id}"/>'" type="button" class="btn btn-small btn-success"/>
+                                </c:if>
+                                    <a href="/users/<c:out value="${user.id}"/>/transactions" class="btn btn-small">Transactions</a>
+                             </td>
+                        </tr>
+                    </c:if>
+                </c:forEach>
+            </tbody>
     </table>
+
     </div>
 
 </body>

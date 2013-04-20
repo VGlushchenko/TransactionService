@@ -63,8 +63,8 @@
             </table>
             <div class="pagination" style="text-align: center; position: absolute; top: 430px; width: 100%;">
                 <ul>
-                    <li class="disabled page-before"><a href="#">&laquo;</a></li>
-                    <li class="page-forward"><a href="#">»</a></li>
+                    <li class="page-before"><a style="cursor:pointer">&laquo;</a></li>
+                    <li class="page-forward"><a style="cursor:pointer">»</a></li>
                 </ul>
             </div>
         </div>

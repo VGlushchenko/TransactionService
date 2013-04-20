@@ -16,7 +16,7 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class TransactionService {
+public class    TransactionService {
 
     @Autowired
     UserDAO userDAO;
@@ -83,8 +83,8 @@ public class TransactionService {
 
             transaction.getLog().setCompletedAt(new Date());
 
-            /*if(true)
-                throw new Exception();*/
+            if(true)
+                throw new Exception();
 
             if (transaction.getLog().getCompletedAt() != null) {
                 transaction.setStatus("completed");
@@ -99,6 +99,24 @@ public class TransactionService {
             return true;
         }
         return false;
+    }
+
+    public void rollbackUncompletedTransactions() {
+        List<Transaction> transactionList = transactionDAO.getUncompletedTransactions();
+
+        for (Transaction transaction : transactionList) {
+            rollback(transaction);
+        }
+        System.out.println("rolled");
+    }
+
+    public List<Transaction> getLimitResults(int id, int start) {
+        int startItem = (start - 1) * 10;
+        return transactionDAO.limitTransactionsList(id, startItem);
+    }
+
+    public int getUsersTransactionsCount(int id) {
+        return transactionDAO.usersTransactionCount(id);
     }
 
     private double validateSum(String inputSum) {
@@ -144,23 +162,5 @@ public class TransactionService {
         catch (Exception e) {
             e.printStackTrace();
         }
-
-    }
-
-    public void rollbackUncompletedTransactions() {
-        List<Transaction> transactionList = transactionDAO.getUncompletedTransactions();
-
-        for (Transaction transaction : transactionList) {
-            rollback(transaction);
-        }
-    }
-
-    public List<Transaction> getLimitResults(int id, int start) {
-        int startItem = (start - 1) * 10;
-        return transactionDAO.limitTransactionsList(id, startItem);
-    }
-
-    public int getUsersTransactionsCount(int id) {
-        return transactionDAO.usersTransactionCount(id);
     }
 }

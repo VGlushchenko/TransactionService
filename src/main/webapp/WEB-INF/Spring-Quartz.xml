@@ -1,0 +1,14 @@
+<!--
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<bean id="jobA" class="com.mypal.service.quartz.RollbackJob" />
+
+	&lt;!&ndash; Quartz Job &ndash;&gt;
+	<bean name="JobA" class="org.springframework.scheduling.quartz.JobDetailBean">
+		<property name="jobClass" value="com.mypal.service.quartz.RollbackJob" />
+	</bean>
+
+</beans>-->

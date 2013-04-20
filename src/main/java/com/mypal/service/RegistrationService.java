@@ -1,6 +1,7 @@
 package com.mypal.service;
 
 import com.mypal.dao.UserDAO;
+import com.mypal.entity.CreditCard;
 import com.mypal.entity.User;
 import com.mypal.form.RegistrationForm;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,28 +18,32 @@ public class RegistrationService {
     @Autowired
     DecodeService decodeService;
 
-    private User user;
-
-    public RegistrationService () {
+    public boolean hasErrors(String email) {
+        return null != userDAO.getByEmail(email);
     }
 
-    public RegistrationService(RegistrationForm registrationForm) throws NoSuchAlgorithmException {
-        user = new User();
-        user.setFirstName(registrationForm.getFirstName());
-        user.setEmail(registrationForm.getEmail());
-        user.setPassword(decodeService.decodePassword(registrationForm.getPassword()));
+    public void register(RegistrationForm rf) throws NoSuchAlgorithmException {
+        User user = new User();
+        user.setFirstName(rf.getFirstName());
+        user.setEmail(rf.getEmail());
+        user.setPassword(decodeService.decodePassword(rf.getPassword()));
         user.setEnabled(true);
         user.setAuthorities("ROLE_USER");
         user.setBalance(1000.0);
 
+        CreditCard privateBank = new CreditCard();
+        privateBank.setName("Private Bank");
+        privateBank.setCardBalance(1000.0);
+        privateBank.setOwner(user);
 
-    }
+        CreditCard raiffeisen = new CreditCard();
+        raiffeisen.setName("Raiffeisen Bank Aval");
+        raiffeisen.setCardBalance(1000.0);
+        raiffeisen.setOwner(user);
 
-    public boolean hasErrors() {
-        return null != userDAO.getByEmail(user.getEmail());
-    }
-
-    public void register() {
         userDAO.save(user);
     }
+
+
+
 }

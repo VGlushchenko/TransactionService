@@ -4,6 +4,13 @@ import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
 import org.springframework.stereotype.Service;
 
+import static org.quartz.JobBuilder.*;
+import static org.quartz.SimpleScheduleBuilder.*;
+import static org.quartz.CronScheduleBuilder.*;
+import static org.quartz.CalendarIntervalScheduleBuilder.*;
+import static org.quartz.TriggerBuilder.*;
+import static org.quartz.DateBuilder.*;
+
 @Service
 public class QuartzTrigger {
 
@@ -19,7 +26,7 @@ public class QuartzTrigger {
                 .withIdentity("quartzTrigger", "group1")
                 .withSchedule(
                         SimpleScheduleBuilder.simpleSchedule()
-                                .withIntervalInSeconds(5)
+                                .withIntervalInSeconds(20)
                                 .repeatForever())
                 .build();
 
